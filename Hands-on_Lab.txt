@@ -1,0 +1,55 @@
+
+
+
+Splunk Platform Cloud - Lab
+
+1) Create a new App in Splunk
+Name: ConfGo23_<Your name initials>
+e.g.: For Andreas Buis >> ConfGo23_AB
+
+2) In the newley created app insert the follwoing search:
+
+`otel_event_indexes` sourcetype="kube:object:nodes" 
+| spath path="status.images{}" output=FOO 
+| eval imageData=null() 
+| foreach mode=multivalue FOO 
+    [ eval imageData=mvappend(imageData, json_extract(<<ITEM>>, "names{0}", "names{1}", "sizeBytes")) ] 
+| fields _time imageData kind metadata.name 
+| fields - _raw 
+| mvexpand imageData
+| eval imageData=json_array_to_mv(imageData, false()) 
+| eval dummy=split(mvindex(imageData, 0), "@"), imageName=mvindex(dummy, 0), imageDigest=mvindex(dummy, 1) 
+| eval imageTag=mvindex(split(mvindex(imageData, 1), ":"), 1), imageSizeBytes=mvindex(imageData, 2) 
+| dedup kind "metadata.name" imageName imageDigest imageTag imageSizeBytes 
+| table _time kind "metadata.name" imageName imageDigest imageTag imageSizeBytes
+
+Save the search as new Report.
+Name: K8s Data
+
+3) Add the Report to a Dashboard
+Dashboard Title: My K8s Daschboard <Your name initials>
+Panel Title: K8s Data
+
+4) add Current pods to a Lookup
+Run this search and add it to the existing Dshboard
+
+`otel_event_indexes` sourcetype="kube:object:nodes" 
+| spath path="status.images{}" output=FOO 
+| eval imageData=null() 
+| foreach mode=multivalue FOO 
+    [ eval imageData=mvappend(imageData, json_extract(<<ITEM>>, "names{0}", "names{1}", "sizeBytes")) ] 
+| fields _time imageData kind metadata.name 
+| fields - _raw 
+| mvexpand imageData
+| eval imageData=json_array_to_mv(imageData, false()) 
+| eval dummy=split(mvindex(imageData, 0), "@"), imageName=mvindex(dummy, 0), imageDigest=mvindex(dummy, 1) 
+| eval imageTag=mvindex(split(mvindex(imageData, 1), ":"), 1), imageSizeBytes=mvindex(imageData, 2) 
+| dedup kind "metadata.name" imageName imageDigest imageTag imageSizeBytes 
+| table imageName imageDigest imageTag imageSizeBytes 
+| outputlookup confgo_k8s_valid_images.csv
+
+Save it as report.
+Name: outputlookup as a comment
+
+Add the Report to the existing Dshboard, we just created before.
+Panel Titel: outputlookup as a comment
