@@ -53,3 +53,32 @@ Name: outputlookup as a comment
 
 Add the Report to the existing Dshboard, we just created before.
 Panel Titel: outputlookup as a comment
+
+5) ES Correlation search SPL
+
+Name: Suspicious Container Image Name
+
+`otel_event_indexes` sourcetype="kube:object:nodes" 
+| spath path="status.images{}" output=FOO 
+| eval imageData=null() 
+| foreach mode=multivalue FOO 
+    [ eval imageData=mvappend(imageData, json_extract(<<ITEM>>, "names{0}", "names{1}", "sizeBytes")) ] 
+| fields _time imageData kind metadata.name 
+| fields - _raw 
+| mvexpand imageData
+| eval imageData=json_array_to_mv(imageData, false()) 
+| eval dummy=split(mvindex(imageData, 0), "@"), imageName=mvindex(dummy, 0), imageDigest=mvindex(dummy, 1) 
+| eval imageTag=mvindex(split(mvindex(imageData, 1), ":"), 1), imageSizeBytes=mvindex(imageData, 2) 
+| search NOT [inputlookup confgo_k8s_valid_images.csv]
+| table imageName imageDigest imageTag imageSizeBytes
+
+6) Mission Control template
+
+Name: ConfGo23_AB
+Description: New Template for ConfGo23 Workshop
+
+Phase Name: Investigate the Container
+
+Task Name: Search for evil Pod last 24h
+
+
