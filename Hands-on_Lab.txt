@@ -16,6 +16,9 @@ Server 8: https://mc-shw-cffd80f7e1def74.stg.splunkcloud.com
 Server 9: https://mc-shw-823a87a8f8bd339.stg.splunkcloud.com
 Server 10: https://mc-shw-be32cbcd0a83c06.stg.splunkcloud.com
 
+O11ly URL
+https://app.eu0.signalfx.com
+
 
 Splunk Platform Cloud - Lab
 
