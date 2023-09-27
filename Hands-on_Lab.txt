@@ -59,12 +59,24 @@ Run this search and add it to the existing Dshboard
     [ eval imageData=mvappend(imageData, json_extract(<<ITEM>>, "names{0}", "names{1}", "sizeBytes")) ] 
 | fields _time imageData kind metadata.name 
 | fields - _raw 
-| mvexpand imageData
+| mvexpand imageData 
 | eval imageData=json_array_to_mv(imageData, false()) 
 | eval dummy=split(mvindex(imageData, 0), "@"), imageName=mvindex(dummy, 0), imageDigest=mvindex(dummy, 1) 
 | eval imageTag=mvindex(split(mvindex(imageData, 1), ":"), 1), imageSizeBytes=mvindex(imageData, 2) 
 | dedup kind "metadata.name" imageName imageDigest imageTag imageSizeBytes 
 | table imageName imageDigest imageTag imageSizeBytes 
+| append 
+    [ search `otel_event_indexes` sourcetype="kube:object:pods" 
+    | eval dummy=spath(_raw, "status.containerStatuses{}.imageID"), imageName=mvindex(split(dummy, "@"), 0), imageDigest=mvindex(split(dummy, "@"), 1) 
+    | eval dummy=spath(_raw, "status.containerStatuses{}.image"), imageTag=mvindex(split(dummy, ":"), 1) 
+    | where isnotnull(imageDigest) 
+    | fields - _raw 
+    | fields imageName imageDigest imageTag sourcetype 
+    | dedup imageName imageDigest imageTag 
+    | table imageName imageDigest imageTag sourcetype] 
+| stats dc(sourcetype) as active values(imageSizeBytes) as imageSizeBytes by imageName imageDigest imageTag 
+| where active>0
+| fields - active
 | outputlookup confgo_k8s_valid_images.csv
 
 Save it as report.
