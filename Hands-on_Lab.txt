@@ -107,15 +107,6 @@ SPL 1
 | rename "metadata.name" as podName "k8s.cluster.name" as clusterName
 | table clusterName nodeName containerName podName imageName imageTag
 
-SPL 2
-`otel_event_indexes` sourcetype="kube:container:*" 
-    [ search `otel_event_indexes` sourcetype="kube:object:pods" 
-    | eval imageData=spath(_raw, "spec.containers{}.image"), imageName=mvindex(split(imageData, ":"), 0), imageTag=mvindex(split(imageData, ":"), 1) 
-    | eval nodeName=spath(_raw, "spec.nodeName"), containerName=spath(_raw, "spec.containers{}.name") 
-    | search imageName IN ("alexeiled/stress-ng") 
-    | dedup "metadata.name" 
-    | rename "metadata.name" as "k8s.pod.name" 
-    | fields "k8s.pod.name" ]
 
 7) SOAR Playbook
 
