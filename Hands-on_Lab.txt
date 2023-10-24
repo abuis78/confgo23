@@ -8,7 +8,7 @@ Server Link: (The assignment to the server is done by the trainer.)
 Server 1: https://mc-shw-16ccbd70286e9d2.stg.splunkcloud.com
 Server 2: https://mc-shw-c18f2ea09fb0542.stg.splunkcloud.com
 Server 3: https://mc-shw-46783606203c2c5.stg.splunkcloud.com
-Server 4: hhttps://mc-shw-439ebd269a147c9.stg.splunkcloud.com
+Server 4: https://mc-shw-439ebd269a147c9.stg.splunkcloud.com
 Server 5: https://mc-shw-610b09e8cd60767.stg.splunkcloud.com
 Server 6: https://mc-shw-5a22b9f3ee4ec59.stg.splunkcloud.com
 Server 7: https://mc-shw-e7141051f211529.stg.splunkcloud.com
