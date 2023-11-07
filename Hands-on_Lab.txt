@@ -5,16 +5,16 @@ Login: user01, user02, user03, user04, user05
 Password: confGo2023 << (The same password for each user, please change after login and remember the new password.)
 
 Server Link: (The assignment to the server is done by the trainer.)
-Server 1: https://mc-shw-8518c22fc1fc8f8.stg.splunkcloud.com
-Server 2: https://mc-shw-b988e1571fbead2.stg.splunkcloud.com
-Server 3: https://mc-shw-5eb7bb81eb27512.stg.splunkcloud.com
-Server 4: https://mc-shw-40bfb13ff87b8b2.stg.splunkcloud.com
-Server 5: https://mc-shw-07bd215f395c90b.stg.splunkcloud.com
-Server 6: https://mc-shw-4cd0710e4ad8f18.stg.splunkcloud.com
-Server 7: https://mc-shw-138d22db689e4bc.stg.splunkcloud.com
-Server 8: https://mc-shw-33f46d3b9ba48c8.stg.splunkcloud.com
-Server 9: https://mc-shw-1734efb2a208ca2.stg.splunkcloud.com
-Server 10: https://mc-shw-3d063de4801c801.stg.splunkcloud.com
+Server 1: https://mc-shw-abd21336cbef893.stg.splunkcloud.com
+Server 2: https://mc-shw-92d6a22048c1aef.stg.splunkcloud.com
+Server 3: https://mc-shw-18b07485b61311e.stg.splunkcloud.com
+Server 4: https://mc-shw-e14e1e146a360c6.stg.splunkcloud.com
+Server 5: https://mc-shw-292e8ac671f05f7.stg.splunkcloud.com
+Server 6: https://mc-shw-e64bb754a7787bd.stg.splunkcloud.com
+Server 7: https://mc-shw-cb7ffe2c8591261.stg.splunkcloud.com
+Server 8: https://mc-shw-d2bf3de5aec7932.stg.splunkcloud.com
+Server 9: https://mc-shw-feba2f4648653e5.stg.splunkcloud.com
+Server 10: https://mc-shw-ae3923de7bc2151.stg.splunkcloud.com
 
 O11ly URL
 https://app.eu0.signalfx.com
